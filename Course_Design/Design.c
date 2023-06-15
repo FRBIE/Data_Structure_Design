@@ -311,6 +311,30 @@ void SearchEMP(EMPList &L)
         }        
     }while(loop);
 }
+// 辅助函数：交换两个职工信息节点的数据
+void SwapEMPData(EMP *a, EMP *b) {
+    long long no = a->no;
+    a->no = b->no;
+    b->no = no;
+
+    char name[20];
+    strcpy(name, a->name);
+    strcpy(a->name, b->name);
+    strcpy(b->name, name);
+
+    int depno = a->depno;
+    a->depno = b->depno;
+    b->depno = depno;
+
+    double salary = a->salary;
+    a->salary = b->salary;
+    b->salary = salary;
+
+    char introduction[100];
+    strcpy(introduction, a->introduction);
+    strcpy(a->introduction, b->introduction);
+    strcpy(b->introduction, introduction);
+}
 //按照部门号降序排序
 void SortEMPdepnoDESC(EMPList &L)
 {
@@ -333,23 +357,7 @@ void SortEMPdepnoDESC(EMPList &L)
         {
             if(p->depno < p->next->depno)
             {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+                 SwapEMPData(p, p->next);
             }
             p = p->next;
         }
@@ -379,23 +387,7 @@ void SortEMPdepnoASC(EMPList &L)
         {
             if(p->depno > p->next->depno)
             {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+                SwapEMPData(p, p->next);
             }
             p = p->next;
         }
@@ -455,23 +447,7 @@ void SortEMPnoASC(EMPList &L)
         {
             if(p->no > p->next->no)
             {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+                 SwapEMPData(p, p->next);
             }
             p = p->next;
         }
@@ -501,23 +477,7 @@ void SortEMPnoDESC(EMPList &L)
         {
             if(p->no < p->next->no)
             {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+                 SwapEMPData(p, p->next);
             }
             p = p->next;
         }
@@ -555,112 +515,75 @@ void SortEMPno(EMPList &L)
     }while(loop);
     
 }
-//按照工资升序排序
-void SortEMPsalaryASC(EMPList &L)
-{
-    EMP *p = L->next;
-    if(p == NULL)
-    {
+
+
+// 按照工资升序排序
+void SortEMPsalaryASC(EMPList &L) {
+    if (L->next == NULL) {
         printf("没有职工信息！\n");
         return;
     }
-    int n = 0;//用于记录职工信息的个数
-    while(p != NULL)
-    {
+
+    int n = 0; // 用于记录职工信息的个数
+    EMP *p = L->next;
+    while (p != NULL) {
         n++;
         p = p->next;
     }
-    p = L->next;
-    for(int i = 0;i < n-1;i++)
-    {
-        for(int j = 0;j < n-1-i;j++)
-        {
-            if(p->salary > p->next->salary)
-            {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+
+    for (int i = 0; i < n - 1; i++) {
+        p = L->next;
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (p->salary > p->next->salary) {
+                SwapEMPData(p, p->next);
             }
             p = p->next;
         }
-        p = L->next;
     }
+
     ShowEMP(L);
 }
-//按照工资降序排序
-void SortEMPsalaryDESC(EMPList &L)
-{
-    EMP *p = L->next;
-    if(p == NULL)
-    {
+
+// 按照工资降序排序
+void SortEMPsalaryDESC(EMPList &L) {
+    if (L->next == NULL) {
         printf("没有职工信息！\n");
         return;
     }
-    int n = 0;//用于记录职工信息的个数
-    while(p != NULL)
-    {
+
+    int n = 0; // 用于记录职工信息的个数
+    EMP *p = L->next;
+    while (p != NULL) {
         n++;
         p = p->next;
     }
-    p = L->next;
-    for(int i = 0;i < n-1;i++)
-    {
-        for(int j = 0;j < n-1-i;j++)
-        {
-            if(p->salary < p->next->salary)
-            {
-                long long no = p->no;
-                p->no = p->next->no;
-                p->next->no = no;
-                char name[20];
-                strcpy(name,p->name);
-                strcpy(p->name,p->next->name);
-                strcpy(p->next->name,name);
-                int depno = p->depno;
-                p->depno = p->next->depno;
-                p->next->depno = depno;
-                double salary = p->salary;
-                p->salary = p->next->salary;
-                p->next->salary = salary;
-                char introduction[100];
-                strcpy(introduction,p->introduction);
-                strcpy(p->introduction,p->next->introduction);
-                strcpy(p->next->introduction,introduction);
+
+    for (int i = 0; i < n - 1; i++) {
+        p = L->next;
+        for (int j = 0; j < n - 1 - i; j++) {
+            if (p->salary < p->next->salary) {
+                SwapEMPData(p, p->next);
             }
             p = p->next;
         }
-        p = L->next;
     }
+
     ShowEMP(L);
 }
-//按照工资升序或降序排序输出所有职工信息
-void SortEMPsalary(EMPList &L)
-{
+
+// 按照工资升序或降序排序输出所有职工信息
+void SortEMPsalary(EMPList &L) {
     int choice;
-    int loop=1;
-    do{
+    int loop = 1;
+    do {
         printf("请输入你要输出的方式：\n");
         printf("1.升序\n");
         printf("2.降序\n");
         printf("3.退出\n");
         printf("请输入(1-3)\n");
-        scanf("%d",&choice);
-        switch(choice)
-        {
+        scanf("%d", &choice);
+
+        switch (choice) {
             case 1:
                 SortEMPsalaryASC(L);
                 break;
@@ -668,15 +591,15 @@ void SortEMPsalary(EMPList &L)
                 SortEMPsalaryDESC(L);
                 break;
             case 3:
-                loop = 0;//不再输出
+                loop = 0; // 不再输出
                 break;
             default:
                 printf("输入错误！\n");
                 break;
-        }        
-    }while(loop);
-    
+        }
+    } while (loop);
 }
+
 //职工信息排序
 void SortEMP(EMPList &L)
 {
@@ -736,8 +659,6 @@ void CountEMP(EMPList &L)
         scanf("%d",&loop);
     }while(loop == 1);
 }
-
-
 
 //主函数
 int main()
