@@ -1,4 +1,4 @@
-#include"Design.h"
+#include"EMPManage.h"
 void menu()
 {
     printf("**********职工信息管理系统**********\n");
