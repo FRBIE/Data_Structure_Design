@@ -1,16 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-
-typedef struct EMP
-{
-    long long int no;//职工号
-    char name[20];//姓名
-    int depno;//部门号
-    double salary;//工资
-    char introduction[100];//简介
-    struct EMP *next;
-}EMP,*EMPList;
+#include"Design.h"
 
 //菜单
 /**
@@ -28,17 +16,17 @@ void menu()
     printf("**********职工信息管理系统**********\n");
     printf("**********1.录入职工信息************\n");
     printf("**********2.显示职工信息************\n");
-    printf("**********3.查询职工信息************\n");
+    printf("**********3.删除职工信息************\n");
     printf("**********4.修改职工信息************\n");
-    printf("**********5.删除职工信息************\n");
+    printf("**********5.查找职工信息************\n");
     printf("**********6.显示排序后的职工信息****\n");
     printf("**********7.各个部门职工数量********\n");
     printf("**********8.退出*********************\n");
-    printf("请输入你的选择：\n");
+    printf("请输入你的选择：(1-8)\n");
 }
 
 //职工表初始化
-void InitList(EMPList &L)
+void InitEMPList(EMPList &L)
 {
     L = (EMP*)malloc(sizeof(EMP));
     L->next = NULL;
@@ -407,6 +395,40 @@ void SortEMPsalary(EMPList &L)
     ShowEMP(L);
 }
 
+//职工信息排序
+void SortEMP(EMPList &L)
+{
+    int choice;
+    int loop=1;
+    do{
+        printf("请输入你要排序的方式：\n");
+        printf("1.职工号\n");
+        printf("2.部门号\n");
+        printf("3.工资\n");
+        printf("4.退出\n");
+        printf("请输入(1-4)\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                SortEMPno(L);
+                break;
+            case 2:
+                SortEMPdepno(L);
+                break;
+            case 3:
+                SortEMPsalary(L);
+                break;
+            case 4:
+                loop = 0;//不再排序
+                break;
+            default:
+                printf("输入错误！\n");
+                break;
+        }        
+    }while(loop);
+}
+
 //统计每个部门职工的数量并显示结果,不断询问是否继续查询
 void CountEMP(EMPList &L)
 {
@@ -433,25 +455,48 @@ void CountEMP(EMPList &L)
         scanf("%d",&loop);
     }while(loop == 1);
 }
-
-
-
+//主函数
 int main()
 {
-    EMPList L;
-    InitList(L);
-    //AddEMP(L);
-    ReadEMP(L);
-    //ShowEMP(L);
-    //DeleteEMP(L);
-    //AddEMP(L);有bug
-    //SearchEMP(L);
-    // SearchEMP(L);
-   // WriteEMP(L);
-    //SortEMPsalary(L);
-    //SortEMPdepno(L);
-    CountEMP(L);
 
-    system("pause");
+    int choice;
+    int loop = 1;
+    EMPList L;
+    InitEMPList(L);
+    
+    do{
+        menu();
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                AddEMP(L);
+                break;
+            case 2:
+                ShowEMP(L);
+                break;
+            case 3:
+                DeleteEMP(L);
+                break;
+            case 4:
+                ModifyEMP(L);
+                break;
+            case 5:
+                SearchEMP(L);
+                break;
+            case 6:
+                SortEMP(L);
+                break;
+            case 7:
+                CountEMP(L);
+                break;
+            case 8:
+                loop = 0;//退出
+                break;
+            default:
+                printf("输入错误！\n");
+                break;
+        }
+    }while(loop);
     return 0;
 }

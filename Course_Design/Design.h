@@ -4,10 +4,10 @@
 
 typedef struct EMP
 {
-    int no;//职工号
+    long long int no;//职工号
     char name[20];//姓名
     int depno;//部门号
     double salary;//工资
-    struct emp *next;
-}EMP,*EMPLINK;
-
+    char introduction[100];//简介
+    struct EMP *next;
+}EMP,*EMPList;
