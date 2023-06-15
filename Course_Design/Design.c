@@ -91,10 +91,15 @@ void ReadEMP(EMPList &L)
     {
         EMP *p = (EMP*)malloc(sizeof(EMP));
         fscanf(fp,"%lld%s%d%lf%s",&p->no,p->name,&p->depno,&p->salary,p->introduction);
+        if(!p)
+        {
+            break;
+        }//防止文件中最后一行为空,导致程序崩溃，多打印出来一行乱码
         EMP *q = L;
         while(q->next != NULL)
         {
             q = q->next;
+
         }
         q->next = p;
         p->next = NULL;
@@ -121,7 +126,7 @@ void WriteEMP(EMPList &L)
     printf("写入成功！\n");
     fclose(fp);
 }
-//根据输入的部门号和姓名查询职工信息
+//根据输入的部门号和姓名查询职工信息并修改
 void SearchEMP(EMPList &L)
 {
     int depno;
@@ -144,8 +149,58 @@ void SearchEMP(EMPList &L)
     if(p == NULL)
     {
         printf("没有找到该职工信息！\n");
+        return;
     }
+    int choice;
+    int loop=1;
+    do{
+         printf("请输入你要修改的信息：\n");
+        printf("1.职工号\n");
+        printf("2.姓名\n");
+        printf("3.部门号\n");
+        printf("4.工资\n");
+        printf("5.简介\n");
+        printf("6.退出\n");
+        printf("请输入(1-6)\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                printf("请输入你要修改的职工号：\n");
+                scanf("%lld",&p->no);
+                printf("修改成功！\n");
+                break;
+            case 2:
+                printf("请输入你要修改的职工姓名：\n");
+                scanf("%s",p->name);
+                printf("修改成功！\n");
+                break;
+            case 3:
+                printf("请输入你要修改的职工部门号：\n");
+                scanf("%d",&p->depno);
+                printf("修改成功！\n");
+                break;
+            case 4:
+                printf("请输入你要修改的职工工资：\n");
+                scanf("%lf",&p->salary);
+                printf("修改成功！\n");
+                break;
+            case 5:
+                printf("请输入你要修改的职工简介：\n");
+                scanf("%s",p->introduction);
+                printf("修改成功！\n");
+                break;
+            case 6:
+                loop = 0;//不再修改
+                break;
+            default:
+                printf("输入错误！\n");
+                break;
+        }        
+    }while(loop);
 }
+
+
 int main()
 {
     EMPList L;
